@@ -8,14 +8,15 @@ def create_project_dir (directory):
         os.makedirs (directory)
 
 # Create queue and crawled files (if not created)
-def create_data_files (project_name, base_url):
-    queue = project_name + '/queue.txt'
+def create_data_files (project_name):
+    queue = 'TennisPlayers.txt'
+    data_storage = project_name + '/storage.txt'
     crawled = project_name + '/crawled.txt'
 
-    if not os.path.isfile (queue):
-        write_file (queue, base_url)
     if not os.path.isfile (crawled):
         write_file (crawled, '')
+    if not os.path.isfile (data_storage):
+        write_file (data_storage, '')
 
 
 # Create a new file
