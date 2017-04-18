@@ -15,8 +15,9 @@ class Spider:
     data_storage = set ()
     crawled = set ()
 
-    def __init__ (self, project_name):
+    def __init__ (self, base_url, project_name):
         Spider.project_name = project_name
+        Spider.base_url = base_url
         Spider.queue_file = 'TennisPlayers.txt'
         Spider.crawl_file = Spider.project_name + '/crawled.txt'
         Spider.data_storage_file = project_name + '/storage.txt'

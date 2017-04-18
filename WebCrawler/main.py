@@ -5,12 +5,13 @@ from domain import *
 from general import *
 
 PROJECT_NAME = 'itftennis'
+BASE_URL = 'http://www.itftennis.com/juniors/players/player/profile.aspx?PlayerID=100148392'
 QUEUE_FILE = 'TennisPlayers.txt'
 CRAWLED_FILE = PROJECT_NAME + '/crawled.txt'
 DATA_STORAGE_FILE = PROJECT_NAME + '/storage.txt'
 NUMBER_OF_THREADS = 10
 queue = Queue ()
-Spider (PROJECT_NAME)
+Spider (BASE_URL, PROJECT_NAME)
 
 # Create worker threads (will die when main exists)
 def create_spiders ():
