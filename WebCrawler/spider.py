@@ -2,7 +2,6 @@ from urllib.request import urlopen
 from selenium import webdriver
 from data_finder import DataFinder
 from link_finder import LinkFinder
-from domain import *
 from general import *
 
 class Spider:
