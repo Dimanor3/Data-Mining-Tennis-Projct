@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 import html5lib
 
 # If I forget to remove the path, heads up, you may need to remove it ;)
-driver = webdriver.Chrome('C:\chromedriver\chromedriver')
+driver = webdriver.PhantomJS()
 driver.get("http://www.itftennis.com/juniors/players/player/profile.aspx?playerid=100202212")
 parser = BeautifulSoup (driver.page_source, 'html5lib')
 
