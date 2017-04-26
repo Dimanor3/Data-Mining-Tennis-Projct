@@ -1,5 +1,6 @@
 from html.parser import HTMLParser
-from urllib import parse
+from selenium import webdriver
+from bs4 import BeautifulSoup
 
 class DataFinder (HTMLParser):
     def __init__ (self, base_url, page_url):
