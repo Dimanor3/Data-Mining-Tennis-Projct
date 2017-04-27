@@ -18,7 +18,7 @@ class Spider:
         Spider.base_url = base_url
         Spider.queue_file = 'TennisPlayers.txt'
         Spider.crawl_file = Spider.project_name + '/crawled.txt'
-        Spider.data_storage_file = project_name + '/storage.txt'
+        Spider.data_storage_file = Spider.project_name + '/storage.txt'
         self.boot ()
         self.crawl_page ('First spider', Spider.base_url)
 
@@ -38,7 +38,7 @@ class Spider:
 
             # Update temporary queue and crawl
             #Spider.add_data_to_storage (Spider.gather_data (page_url))
-            Spider.gather_data(page_url)
+            Spider.data_storage.add (Spider.gather_data(page_url))
             Spider.queue.remove (page_url)
             Spider.crawled.add (page_url)
 
@@ -47,12 +47,11 @@ class Spider:
 
     @staticmethod
     def gather_data (page_url):
-        finder = data_finder(Spider.base_url, page_url)
+        finder = data_finder (Spider.base_url, page_url)
 
-        finder.gatherData ()
+        temp = finder.gatherData ()
 
-        return finder.data ()
-
+        return temp
 
 #     @staticmethod
 #     def gather_links (page_url):

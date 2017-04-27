@@ -2,91 +2,89 @@ from selenium import webdriver
 from datetime import datetime
 from datetime import date
 
-# driver = webdriver.PhantomJS ()
-# driver = webdriver.PhantomJS ('C:\phantomjs-2.1.1-windows\bin\phantomjs')
-driver = webdriver.Chrome ()
+driver = webdriver.PhantomJS ()
+# driver = webdriver.Chrome ()
+
+def scoreCalc (grade, position, result):
+    score = 0
+
+    if (str (grade).__contains__ ('Grade A')):
+        if (str (position).__contains__ ('FR') and str (result).__contains__ ('W')):
+            score = 250
+        if (str (position).__contains__ ('FR') and str (result).__contains__ ('L')):
+            score = 180
+        if (str (position).__contains__ ('SF')):
+            score = 120
+        if (str (position).__contains__ ('QF')):
+            score = 80
+        if (str (position).__contains__ ('16')):
+            score = 50
+        if (str (position).__contains__ ('32')):
+            score = 30
+
+    if (str (grade).__contains__ ('Grade 1')):
+        if (str (position).__contains__ ('FR') and str (result).__contains__ ('W')):
+            score = 150
+        if (str (position).__contains__ ('FR') and str (result).__contains__ ('L')):
+            score = 100
+        if (str (position).__contains__ ('SF')):
+            score = 80
+        if (str (position).__contains__ ('QF')):
+            score = 60
+        if (str (position).__contains__ ('16')):
+            score = 30
+        if (str (position).__contains__ ('32')):
+            score = 20
+
+    if (str (grade).__contains__ ('Grade 2')):
+        if (str (position).__contains__ ('FR') and str (result).__contains__ ('W')):
+            score = 100
+        if (str (position).__contains__ ('FR') and str (result).__contains__ ('L')):
+            score = 75
+        if (str (position).__contains__ ('SF')):
+            score = 50
+        if (str (position).__contains__ ('QF')):
+            score = 30
+        if (str (position).__contains__ ('16')):
+            score = 20
+        if (str (position).__contains__ ('32')):
+            score = 10
+
+    if (str (grade).__contains__ ('Grade B1')):
+        if (str (position).__contains__ ('FR') and str (result).__contains__ ('W')):
+            score = 180
+        if (str (position).__contains__ ('FR') and str (result).__contains__ ('L')):
+            score = 120
+        if (str (position).__contains__ ('SF')):
+            score = 80
+        if (str (position).__contains__ ('QF')):
+            score = 60
+        if (str (position).__contains__ ('16')):
+            score = 30
+        if (str (position).__contains__ ('32')):
+            score = 20
+
+    if (str (grade).__contains__ ('Grade B2')):
+        if (str (position).__contains__ ('FR') and str (result).__contains__ ('W')):
+            score = 120
+        if (str (position).__contains__ ('FR') and str (result).__contains__ ('L')):
+            score = 80
+        if (str (position).__contains__ ('SF')):
+            score = 60
+        if (str (position).__contains__ ('QF')):
+            score = 40
+        if (str (position).__contains__ ('16')):
+            score = 25
+        if (str (position).__contains__ ('32')):
+            score = 10
+
+    return score
 
 class data_finder ():
     def __init__(self, base_url, page_url):
         super ().__init__ ()
         self.base_url = base_url
         self.page_url = page_url
-        self.data = set ()
-
-    def scoreCalc (grade, position, result):
-        score = 0
-
-        if (str (grade).__contains__ ('Grade A')):
-            if (str (position).__contains__ ('FR') and str (result).__contains__ ('W')):
-                score = 250
-            if (str (position).__contains__ ('FR') and str (result).__contains__ ('L')):
-                score = 180
-            if (str (position).__contains__ ('SF')):
-                score = 120
-            if (str (position).__contains__ ('QF')):
-                score = 80
-            if (str (position).__contains__ ('16')):
-                score = 50
-            if (str (position).__contains__ ('32')):
-                score = 30
-
-        if (str (grade).__contains__ ('Grade 1')):
-            if (str (position).__contains__ ('FR') and str (result).__contains__ ('W')):
-                score = 150
-            if (str (position).__contains__ ('FR') and str (result).__contains__ ('L')):
-                score = 100
-            if (str (position).__contains__ ('SF')):
-                score = 80
-            if (str (position).__contains__ ('QF')):
-                score = 60
-            if (str (position).__contains__ ('16')):
-                score = 30
-            if (str (position).__contains__ ('32')):
-                score = 20
-
-        if (str (grade).__contains__ ('Grade 2')):
-            if (str (position).__contains__ ('FR') and str (result).__contains__ ('W')):
-                score = 100
-            if (str (position).__contains__ ('FR') and str (result).__contains__ ('L')):
-                score = 75
-            if (str (position).__contains__ ('SF')):
-                score = 50
-            if (str (position).__contains__ ('QF')):
-                score = 30
-            if (str (position).__contains__ ('16')):
-                score = 20
-            if (str (position).__contains__ ('32')):
-                score = 10
-
-        if (str (grade).__contains__ ('Grade B1')):
-            if (str (position).__contains__ ('FR') and str (result).__contains__ ('W')):
-                score = 180
-            if (str (position).__contains__ ('FR') and str (result).__contains__ ('L')):
-                score = 120
-            if (str (position).__contains__ ('SF')):
-                score = 80
-            if (str (position).__contains__ ('QF')):
-                score = 60
-            if (str (position).__contains__ ('16')):
-                score = 30
-            if (str (position).__contains__ ('32')):
-                score = 20
-
-        if (str (grade).__contains__ ('Grade B2')):
-            if (str (position).__contains__ ('FR') and str (result).__contains__ ('W')):
-                score = 120
-            if (str (position).__contains__ ('FR') and str (result).__contains__ ('L')):
-                score = 80
-            if (str (position).__contains__ ('SF')):
-                score = 60
-            if (str (position).__contains__ ('QF')):
-                score = 40
-            if (str (position).__contains__ ('16')):
-                score = 25
-            if (str (position).__contains__ ('32')):
-                score = 10
-
-        return score
 
     def gatherData (self):
         driver.get (self.page_url)
@@ -180,18 +178,21 @@ class data_finder ():
                 if str (td30[i].text).__contains__ ('L'):
                     g2L += 1
 
-            score += self.scoreCalc (grade[i].text, td20[i].text, td30[i].text)
+            score += scoreCalc (grade[i].text, td20[i].text, td30[i].text)
 
         data_save_text = data_save_text + ', ' + str (gAP) + ', ' + str (gAW) + ', ' + str (gAL) + ', ' + str (g1P) + ', ' + str (g1W) + ', ' + str (g1L) + ', ' + str (gB1P) + ', ' + str (gB1W) + ', ' + str (gB1L) + ', ' + str (gB2P) + ', ' + str (gB2W) + ', ' + str (gB2L) + ', ' + str (g2P) + ', ' + str (g2W) + ', ' + str (g2L) + ', ' + str (score)
 
-        self.data.add (data_save_text)
-        
-        print (self.data.__str__())
-
         driver.quit ()
 
-    def data (self):
-        return self.data
+        return data_save_text
+
+    # def data (self):
+    #     self.gatherData()
+    #     return
 
     def error (self, message):
         pass
+
+# test = data_finder ('', 'http://www.itftennis.com/juniors/players/player/profile.aspx?playerid=100202212')
+#
+# print (test.gatherData())

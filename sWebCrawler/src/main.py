@@ -9,9 +9,8 @@ from datetime import datetime
 from datetime import date
 
 # If I forget to remove the path, heads up, you may need to remove it ;)
-# driver = webdriver.PhantomJS ()
-# driver = webdriver.PhantomJS ('C:\phantomjs-2.1.1-windows\bin\phantomjs')
-driver = webdriver.Chrome ()
+driver = webdriver.PhantomJS ()
+# driver = webdriver.Chrome ()
 
 def scoreCalc (grade, position, result):
     score = 0
