@@ -95,13 +95,17 @@ class data_finder ():
         born = driver.find_element_by_xpath ('//*[@id="PlayerDiv"]/div[1]/div/div[2]/ul/li[2]/strong')
 
         id = self.page_url.split ('=')[-1]
-        born = datetime.strptime (str (born.text), '%d %b %Y')
 
-        today = date.today ()
+        if  str (born.text):
+            born = datetime.strptime (str (born.text), '%d %b %Y')
 
-        age = today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+            today = date.today ()
 
-        data_save_text = id + ', ' + name.text + ', ' + age.__str__()
+            age = today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+
+            data_save_text = id + ', ' + name.text + ', ' + age.__str__()
+        else:
+            return ''
 
         driver.find_element_by_id ('__tab_tabActivities').click ()
         driver.find_element_by_id ('btnViewAll').click ()
@@ -182,7 +186,7 @@ class data_finder ():
 
         data_save_text = data_save_text + ', ' + str (gAP) + ', ' + str (gAW) + ', ' + str (gAL) + ', ' + str (g1P) + ', ' + str (g1W) + ', ' + str (g1L) + ', ' + str (gB1P) + ', ' + str (gB1W) + ', ' + str (gB1L) + ', ' + str (gB2P) + ', ' + str (gB2W) + ', ' + str (gB2L) + ', ' + str (g2P) + ', ' + str (g2W) + ', ' + str (g2L) + ', ' + str (score)
 
-        driver.quit ()
+        # driver.quit ()
 
         return data_save_text
 
