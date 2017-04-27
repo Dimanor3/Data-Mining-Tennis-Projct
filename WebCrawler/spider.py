@@ -49,9 +49,9 @@ class Spider:
     def gather_data (page_url):
         finder = data_finder(Spider.base_url, page_url)
 
-        finder.gatherData ()
+        #finder.gatherData ()
 
-        return finder.data ()
+        return  finder.gatherData ()
 
 
 #     @staticmethod
