@@ -53,25 +53,6 @@ class Spider:
 
         return temp
 
-#     @staticmethod
-#     def gather_links (page_url):
-#         html_string = ''
-# 	
-#         try:
-#             response = urlopen (page_url)
-# 	
-#             if response.getheader ('Content-Type') == 'text/html':
-#                 html_bytes = response.read ()
-#                 html_string = html_bytes.decode ("utf-8")
-# 	
-#             finder = LinkFinder (Spider.base_url, page_url)
-#             finder.feed (html_string)
-#         except:
-#             print ('Error: cannot crawl page')
-#             return set ()
-# 	
-#         return finder.page_links ()
-
     # Saves data to storage
     @staticmethod
     def add_data_to_storage(datas):

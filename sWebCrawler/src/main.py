@@ -9,8 +9,8 @@ from datetime import datetime
 from datetime import date
 
 # If I forget to remove the path, heads up, you may need to remove it ;)
-driver = webdriver.PhantomJS ()
-# driver = webdriver.Chrome ()
+driver = webdriver.PhantomJS ('C:\Python27\phantomjs')
+# driver = webdriver.Chrome ('C:\Python27\chromedriver.exe')
 
 def scoreCalc (grade, position, result):
     score = 0
@@ -91,19 +91,28 @@ url = 'http://www.itftennis.com/juniors/players/player/profile.aspx?playerid=100
 
 driver.get (url)
 
-dataSave_text = ''
+data_save_text = ''
 
 name = driver.find_element_by_xpath('//*[@id="PlayerDiv"]/div[1]/div/div[2]/ul/li[1]/strong')
 born = driver.find_element_by_xpath('//*[@id="PlayerDiv"]/div[1]/div/div[2]/ul/li[2]/strong')
 
 id = url.split ('=')[-1]
-born = datetime.strptime (str (born.text), '%d %b %Y')
 
-today = date.today ()
+if not str(name.text):
+    print ('Fail 1')
+    driver.quit()
 
-age = today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+if str(born.text):
+    born = datetime.strptime(str(born.text), '%d %b %Y')
 
-dataSave_text = id + ', ' + name.text + ', ' + age.__str__()
+    today = date.today()
+
+    age = today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+
+    data_save_text = id + ', ' + name.text + ', ' + age.__str__()
+else:
+    print ('Fail 2')
+    driver.quit()
 
 driver.find_element_by_id ('__tab_tabActivities').click ()
 driver.find_element_by_id ('btnViewAll').click ()
@@ -128,6 +137,8 @@ g1L = 0
 gB1L = 0
 gB2L = 0
 g2L = 0
+
+count = 0
 
 score = 0
 
@@ -180,11 +191,14 @@ for i in range(int (teamSize.__len__())):
         if str (td30[i].text).__contains__ ('L'):
             g2L += 1
 
+    count += 1
+
     score += scoreCalc (grade[i].text, td20[i].text, td30[i].text)
 
+score = score / count
 
-dataSave_text = dataSave_text + ', ' + str (gAP) + ', ' + str (gAW) + ', ' + str (gAL) + ', ' + str (g1P) + ', ' + str (g1W) + ', ' + str (g1L) + ', ' + str (gB1P) + ', ' + str (gB1W) + ', ' + str (gB1L) + ', ' + str (gB2P) + ', ' + str (gB2W) + ', ' + str (gB2L) + ', ' + str (g2P) + ', ' + str (g2W) + ', ' + str (g2L) + ', ' + str (score)
+data_save_text = data_save_text + ', ' + str (gAP) + ', ' + str (gAW) + ', ' + str (gAL) + ', ' + str (g1P) + ', ' + str (g1W) + ', ' + str (g1L) + ', ' + str (gB1P) + ', ' + str (gB1W) + ', ' + str (gB1L) + ', ' + str (gB2P) + ', ' + str (gB2W) + ', ' + str (gB2L) + ', ' + str (g2P) + ', ' + str (g2W) + ', ' + str (g2L) + ', ' + str (score)
 
-print (dataSave_text)
+print (data_save_text)
 
 driver.quit()

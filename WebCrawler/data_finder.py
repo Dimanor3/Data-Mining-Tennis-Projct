@@ -2,8 +2,8 @@ from selenium import webdriver
 from datetime import datetime
 from datetime import date
 
-driver = webdriver.PhantomJS ()
-# driver = webdriver.Chrome ()
+driver = webdriver.PhantomJS ('C:\Python27\phantomjs.exe')
+# driver = webdriver.Chrome ('C:\Python27\chromedriver.exe')
 
 def scoreCalc (grade, position, result):
     score = 0
@@ -96,6 +96,9 @@ class data_finder ():
 
         id = self.page_url.split ('=')[-1]
 
+        if not str (name.text):
+            return ''
+
         if  str (born.text):
             born = datetime.strptime (str (born.text), '%d %b %Y')
 
@@ -105,6 +108,10 @@ class data_finder ():
 
             data_save_text = id + ', ' + name.text + ', ' + age.__str__()
         else:
+            return ''
+
+        if (int (age.__str__()) < 16 or int (age.__str__()) > 18):
+            print (data_save_text)
             return ''
 
         driver.find_element_by_id ('__tab_tabActivities').click ()
@@ -130,6 +137,8 @@ class data_finder ():
         gB1L = 0
         gB2L = 0
         g2L = 0
+
+        count = 0
 
         score = 0
 
@@ -182,21 +191,18 @@ class data_finder ():
                 if str (td30[i].text).__contains__ ('L'):
                     g2L += 1
 
+            count += 1
+
             score += scoreCalc (grade[i].text, td20[i].text, td30[i].text)
+
+        if score > 0:
+            score = score / count
 
         data_save_text = data_save_text + ', ' + str (gAP) + ', ' + str (gAW) + ', ' + str (gAL) + ', ' + str (g1P) + ', ' + str (g1W) + ', ' + str (g1L) + ', ' + str (gB1P) + ', ' + str (gB1W) + ', ' + str (gB1L) + ', ' + str (gB2P) + ', ' + str (gB2W) + ', ' + str (gB2L) + ', ' + str (g2P) + ', ' + str (g2W) + ', ' + str (g2L) + ', ' + str (score)
 
-        # driver.quit ()
+        print (data_save_text)
 
         return data_save_text
 
-    # def data (self):
-    #     self.gatherData()
-    #     return
-
     def error (self, message):
         pass
-
-# test = data_finder ('', 'http://www.itftennis.com/juniors/players/player/profile.aspx?playerid=100202212')
-#
-# print (test.gatherData())
