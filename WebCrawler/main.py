@@ -10,7 +10,7 @@ BASE_URL = 'http://www.itftennis.com/juniors/players/player/profile.aspx?PlayerI
 QUEUE_FILE = 'TennisPlayers.txt'
 CRAWLED_FILE = PROJECT_NAME + '/crawled.txt'
 DATA_STORAGE_FILE = PROJECT_NAME + '/storage.txt'
-NUMBER_OF_THREADS = 10
+NUMBER_OF_THREADS = 1
 queue = Queue ()
 Spider (BASE_URL, PROJECT_NAME)
 

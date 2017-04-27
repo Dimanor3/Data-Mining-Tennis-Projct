@@ -1,7 +1,4 @@
-from urllib.request import urlopen
-from selenium import webdriver
-from data_finder import DataFinder
-from link_finder import LinkFinder
+from data_finder import data_finder
 from general import *
 
 class Spider:
@@ -50,21 +47,11 @@ class Spider:
 
     @staticmethod
     def gather_data (page_url):
-        html_string = ''
+        finder = data_finder(Spider.base_url, page_url)
 
-        try:
-            response = urlopen (page_url)
+        finder.gatherData ()
 
-            if response.getheader ('Content-Type') == 'text/html':
-                html_bytes = response.read ()
-                html_string = html_bytes.decode ("utf-8")
-
-            finder = DataFinder(Spider.base_url, page_url)
-            finder.feed(html_string)
-        except:
-            print ('Error: cannot crawl page')
-            return set ()
-            pass
+        return finder.data ()
 
 
 #     @staticmethod
