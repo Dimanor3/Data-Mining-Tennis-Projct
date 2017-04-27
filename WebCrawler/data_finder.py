@@ -1,4 +1,6 @@
 from selenium import webdriver
+from datetime import datetime
+from datetime import date
 
 # driver = webdriver.PhantomJS ()
 # driver = webdriver.PhantomJS ('C:\phantomjs-2.1.1-windows\bin\phantomjs')
@@ -11,23 +13,104 @@ class data_finder ():
         self.page_url = page_url
         self.data = set ()
 
+    def scoreCalc (grade, position, result):
+        score = 0
+
+        if (str (grade).__contains__ ('Grade A')):
+            if (str (position).__contains__ ('FR') and str (result).__contains__ ('W')):
+                score = 250
+            if (str (position).__contains__ ('FR') and str (result).__contains__ ('L')):
+                score = 180
+            if (str (position).__contains__ ('SF')):
+                score = 120
+            if (str (position).__contains__ ('QF')):
+                score = 80
+            if (str (position).__contains__ ('16')):
+                score = 50
+            if (str (position).__contains__ ('32')):
+                score = 30
+
+        if (str (grade).__contains__ ('Grade 1')):
+            if (str (position).__contains__ ('FR') and str (result).__contains__ ('W')):
+                score = 150
+            if (str (position).__contains__ ('FR') and str (result).__contains__ ('L')):
+                score = 100
+            if (str (position).__contains__ ('SF')):
+                score = 80
+            if (str (position).__contains__ ('QF')):
+                score = 60
+            if (str (position).__contains__ ('16')):
+                score = 30
+            if (str (position).__contains__ ('32')):
+                score = 20
+
+        if (str (grade).__contains__ ('Grade 2')):
+            if (str (position).__contains__ ('FR') and str (result).__contains__ ('W')):
+                score = 100
+            if (str (position).__contains__ ('FR') and str (result).__contains__ ('L')):
+                score = 75
+            if (str (position).__contains__ ('SF')):
+                score = 50
+            if (str (position).__contains__ ('QF')):
+                score = 30
+            if (str (position).__contains__ ('16')):
+                score = 20
+            if (str (position).__contains__ ('32')):
+                score = 10
+
+        if (str (grade).__contains__ ('Grade B1')):
+            if (str (position).__contains__ ('FR') and str (result).__contains__ ('W')):
+                score = 180
+            if (str (position).__contains__ ('FR') and str (result).__contains__ ('L')):
+                score = 120
+            if (str (position).__contains__ ('SF')):
+                score = 80
+            if (str (position).__contains__ ('QF')):
+                score = 60
+            if (str (position).__contains__ ('16')):
+                score = 30
+            if (str (position).__contains__ ('32')):
+                score = 20
+
+        if (str (grade).__contains__ ('Grade B2')):
+            if (str (position).__contains__ ('FR') and str (result).__contains__ ('W')):
+                score = 120
+            if (str (position).__contains__ ('FR') and str (result).__contains__ ('L')):
+                score = 80
+            if (str (position).__contains__ ('SF')):
+                score = 60
+            if (str (position).__contains__ ('QF')):
+                score = 40
+            if (str (position).__contains__ ('16')):
+                score = 25
+            if (str (position).__contains__ ('32')):
+                score = 10
+
+        return score
+
     def gatherData (self):
         driver.get (self.page_url)
 
         data_save_text = ''
 
-        content = driver.find_element_by_xpath ('//*[@id="PlayerDiv"]/div[1]/div/div[2]/ul/li[1]/strong')
-        age = driver.find_element_by_xpath ('//*[@id="PlayerDiv"]/div[1]/div/div[2]/ul/li[2]/strong')
+        name = driver.find_element_by_xpath ('//*[@id="PlayerDiv"]/div[1]/div/div[2]/ul/li[1]/strong')
+        born = driver.find_element_by_xpath ('//*[@id="PlayerDiv"]/div[1]/div/div[2]/ul/li[2]/strong')
 
         id = self.page_url.split ('=')[-1]
+        born = datetime.strptime (str (born.text), '%d %b %Y')
 
-        data_save_text = id + ', ' + content.text + ', ' + age.text
+        today = date.today ()
+
+        age = today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+
+        data_save_text = id + ', ' + name.text + ', ' + age.__str__()
 
         driver.find_element_by_id ('__tab_tabActivities').click ()
         driver.find_element_by_id ('btnViewAll').click ()
 
         teamSize = driver.find_elements_by_css_selector ('.ulMatch li:nth-child(1)')
         grade = driver.find_elements_by_css_selector ('.ulMatch li:nth-child(2)')
+        td20 = driver.find_elements_by_css_selector ('table tr:last-child .td-20')
         td30 = driver.find_elements_by_css_selector ('table tr:last-child .td-30')
 
         gAP = 0
@@ -45,6 +128,8 @@ class data_finder ():
         gB1L = 0
         gB2L = 0
         g2L = 0
+
+        score = 0
 
         for i in range (int (teamSize.__len__ ())):
             if str (teamSize[i].text).__contains__ ('Doubles') or str (grade[i].text).__contains__ ('Grade 3') or str (grade[i].text).__contains__ ('Grade 4') or str (grade[i].text).__contains__ ('Grade 5'):
@@ -95,9 +180,13 @@ class data_finder ():
                 if str (td30[i].text).__contains__ ('L'):
                     g2L += 1
 
-        data_save_text = data_save_text + ', ' + str (gAP) + ', ' + str (gAW) + ', ' + str (gAL) + ', ' + str (g1P) + ', ' + str (g1W) + ', ' + str (g1L) + ', ' + str (gB1P) + ', ' + str (gB1W) + ', ' + str (gB1L) + ', ' + str (gB2P) + ', ' + str (gB2W) + ', ' + str (gB2L) + ', ' + str (g2P) + ', ' + str (g2W) + ', ' + str (g2L)
+            score += self.scoreCalc (grade[i].text, td20[i].text, td30[i].text)
+
+        data_save_text = data_save_text + ', ' + str (gAP) + ', ' + str (gAW) + ', ' + str (gAL) + ', ' + str (g1P) + ', ' + str (g1W) + ', ' + str (g1L) + ', ' + str (gB1P) + ', ' + str (gB1W) + ', ' + str (gB1L) + ', ' + str (gB2P) + ', ' + str (gB2W) + ', ' + str (gB2L) + ', ' + str (g2P) + ', ' + str (g2W) + ', ' + str (g2L) + ', ' + str (score)
 
         self.data.add (data_save_text)
+        
+        print (self.data.__str__())
 
         driver.quit ()
 
