@@ -10,6 +10,7 @@ def create_project_dir (directory):
 # Create queue and crawled files (if not created)
 def create_data_files (project_name):
     queue = 'TennisPlayers.txt'
+    queue_update = project_name + '/queueUpdate.txt'
     data_storage = project_name + '/storage.txt'
     crawled = project_name + '/crawled.txt'
 
@@ -18,6 +19,9 @@ def create_data_files (project_name):
 
     if not os.path.isfile(data_storage):
         write_file(data_storage, '')
+
+    if not os.path.isfile (queue_update):
+        write_file (queue_update, '')
 
 
 # Create a new file
@@ -54,3 +58,8 @@ def set_to_file (links, file):
 
     for link in sorted (links):
         append_to_file (file, link)
+
+def set_to_file_int (queue, file):
+    delete_file_content (file)
+
+    append_to_file (file, queue)

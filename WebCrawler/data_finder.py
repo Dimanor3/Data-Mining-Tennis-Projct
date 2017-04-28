@@ -21,6 +21,12 @@ def scoreCalc (grade, position, result):
             score = 50
         if (str (position).__contains__ ('32')):
             score = 30
+        if (str (position).__contains__('Q3') and str (result).__contains__('W')):
+            score = 20
+        if (str (position).__contains__('Q3') and str (result).__contains__('L')):
+            score = 10
+        if (str (position).__contains__('Q2')):
+            score = 5
 
     if (str (grade).__contains__ ('Grade 1')):
         if (str (position).__contains__ ('FR') and str (result).__contains__ ('W')):
@@ -35,6 +41,12 @@ def scoreCalc (grade, position, result):
             score = 30
         if (str (position).__contains__ ('32')):
             score = 20
+        if (str (position).__contains__('Q3') and str (result).__contains__('W')):
+            score = 10
+        if (str (position).__contains__('Q3') and str (result).__contains__('L')):
+            score = 5
+        if (str (position).__contains__('Q2')):
+            score = 1
 
     if (str (grade).__contains__ ('Grade 2')):
         if (str (position).__contains__ ('FR') and str (result).__contains__ ('W')):
@@ -142,6 +154,8 @@ class data_finder ():
 
         score = 0
 
+        rating = 0
+
         for i in range (int (teamSize.__len__ ())):
             if str (teamSize[i].text).__contains__ ('Doubles') or str (grade[i].text).__contains__ ('Grade 3') or str (grade[i].text).__contains__ ('Grade 4') or str (grade[i].text).__contains__ ('Grade 5'):
                 continue
@@ -198,7 +212,14 @@ class data_finder ():
         if score > 0:
             score = score / count
 
-        data_save_text = data_save_text + ', ' + str (gAP) + ', ' + str (gAW) + ', ' + str (gAL) + ', ' + str (g1P) + ', ' + str (g1W) + ', ' + str (g1L) + ', ' + str (gB1P) + ', ' + str (gB1W) + ', ' + str (gB1L) + ', ' + str (gB2P) + ', ' + str (gB2W) + ', ' + str (gB2L) + ', ' + str (g2P) + ', ' + str (g2W) + ', ' + str (g2L) + ', ' + str (score)
+        if score == 0:
+            rating = 0
+        elif score > 0 and score <= 5:
+            rating = 1
+        else:
+            rating = 2
+
+        data_save_text = data_save_text + ', ' + str (gAP) + ', ' + str (gAW) + ', ' + str (gAL) + ', ' + str (g1P) + ', ' + str (g1W) + ', ' + str (g1L) + ', ' + str (gB1P) + ', ' + str (gB1W) + ', ' + str (gB1L) + ', ' + str (gB2P) + ', ' + str (gB2W) + ', ' + str (gB2L) + ', ' + str (g2P) + ', ' + str (g2W) + ', ' + str (g2L) + ', ' + str (score) + ', ' + str (rating)
 
         print (data_save_text)
 

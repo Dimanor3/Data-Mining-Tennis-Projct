@@ -1,1 +1,1 @@
-ID, Name, Age, GradeA, GradeAWin, GradeALoss, Grade1, Grade1Win, Grade1Loss, GradeB1, GradeB1Win, GradeB1Loss, GradeB2, GradeB2Win, GradeB2Loss, Grade2, Grade2Win, Grade2Loss, Score
+ID, Name, Age, GradeA, GradeAWin, GradeALoss, Grade1, Grade1Win, Grade1Loss, GradeB1, GradeB1Win, GradeB1Loss, GradeB2, GradeB2Win, GradeB2Loss, Grade2, Grade2Win, Grade2Loss, Score, Rating
